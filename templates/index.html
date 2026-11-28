@@ -3,30 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DriveSafe | Driver Fatigue & Drowsiness Monitoring System</title>
+<title>DriveSafe | Driver Drowsiness Monitor</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600;700&display=swap" rel="stylesheet">
 <style>
 :root {
-    --bg-dark: #000000;
-    --bg-card: #0c0d12;
-    --bg-card-hover: #141620;
-    --border: #1a1c26;
-    --border-highlight: #282c3c;
-    --text-primary: #ffffff;
-    --text-secondary: #94a3b8;
+    --bg: #ffffff;
+    --surface: #ffffff;
+    --surface-soft: #f8fafc;
+    --border: #e2e8f0;
+    --text: #0f172a;
     --text-muted: #64748b;
-    --cyan: #00f0ff;
-    --blue-accent: #38bdf8;
-    --blue-glow: rgba(56, 189, 248, 0.25);
-    --green-alert: #10b981;
-    --green-glow: rgba(16, 185, 129, 0.25);
-    --yellow-warning: #f59e0b;
-    --yellow-glow: rgba(245, 158, 11, 0.25);
-    --red-drowsy: #f43f5e;
-    --red-glow: rgba(244, 63, 94, 0.35);
+    --accent: #0284c7;
+    --green: #059669;
+    --yellow: #d97706;
+    --red: #e11d48;
 }
 
 * {
@@ -37,105 +29,24 @@
 
 body {
     font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-    background-color: var(--bg-dark);
-    background-image:
-        radial-gradient(ellipse 80% 50% at 50% -5%, rgba(56, 189, 248, 0.12), transparent 60%),
-        radial-gradient(circle 900px at 100% 100%, rgba(14, 165, 233, 0.06), transparent);
-    background-attachment: fixed;
-    color: var(--text-primary);
+    background: var(--bg);
+    color: var(--text);
     min-height: 100vh;
     line-height: 1.5;
     -webkit-font-smoothing: antialiased;
-    transition: background-color 0.25s ease, background-image 0.25s ease;
 }
 
-body.theme-pureblack {
-    --bg-dark: #000000;
-    --bg-card: #0c0d12;
-    --bg-card-hover: #141620;
-    --border: #1a1c26;
-    background-color: #000000;
-    background-image: radial-gradient(ellipse 80% 50% at 50% -5%, rgba(56, 189, 248, 0.12), transparent 60%);
-}
-
-body.theme-graphite {
-    --bg-dark: #121215;
-    --bg-card: #181920;
-    --bg-card-hover: #22232c;
-    --border: #272834;
-    background-color: #121215;
-    background-image: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(30, 41, 59, 0.4), transparent 70%);
-}
-
-body.theme-midnight {
-    --bg-dark: #060d1c;
-    --bg-card: #0c152a;
-    --bg-card-hover: #121f3d;
-    --border: #182747;
-    background-color: #060d1c;
-    background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(14, 116, 144, 0.22), transparent 70%), radial-gradient(circle 900px at 100% 100%, rgba(30, 58, 138, 0.16), transparent);
-}
-
-body.theme-emerald {
-    --bg-dark: #04120c;
-    --bg-card: #091f15;
-    --bg-card-hover: #0f2e20;
-    --border: #163827;
-    background-color: #04120c;
-    background-image: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(16, 185, 129, 0.15), transparent 70%);
-}
-
-body.theme-purple {
-    --bg-dark: #0c0517;
-    --bg-card: #150b28;
-    --bg-card-hover: #20123c;
-    --border: #28164a;
-    background-color: #0c0517;
-    background-image: radial-gradient(ellipse 80% 50% at 50% 0%, rgba(168, 85, 247, 0.16), transparent 70%);
-}
-
-body.theme-light {
-    --bg-dark: #f8fafc;
-    --bg-card: #ffffff;
-    --bg-card-hover: #f1f5f9;
-    --border: #e2e8f0;
-    --border-highlight: #cbd5e1;
-    --text-primary: #0f172a;
-    --text-secondary: #475569;
-    --text-muted: #64748b;
-    background-color: #f8fafc;
-    background-image: radial-gradient(ellipse 90% 60% at 50% -10%, rgba(56, 189, 248, 0.1), transparent 70%);
-}
-
-.hud-bottom-banner.alert-active {
-    background: rgba(185, 28, 28, 0.96);
-    border-color: #ef4444;
-    color: #fff;
-    box-shadow: 0 0 18px rgba(239, 68, 68, 0.45);
-    animation: drowsinessBannerPulse 1.5s ease-in-out infinite alternate;
-}
-
-.hud-bottom-banner.alert-active #hudMessage {
-    color: #fff;
-}
-
-@keyframes drowsinessBannerPulse {
-    from { box-shadow: 0 0 10px rgba(239, 68, 68, 0.3); }
-    to { box-shadow: 0 0 22px rgba(239, 68, 68, 0.65); }
-}
-
-/* Header Styles */
 header {
     position: sticky;
     top: 0;
-    z-index: 50;
+    z-index: 20;
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    justify-content: space-between;
     gap: 16px;
-    padding: 16px 4%;
-    background: rgba(6, 11, 20, 0.85);
-    backdrop-filter: blur(16px);
+    padding: 14px 4%;
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
     flex-wrap: wrap;
 }
@@ -143,334 +54,273 @@ header {
 .brand {
     display: flex;
     align-items: center;
-    gap: 14px;
+    gap: 12px;
 }
 
-.logo-container {
-    position: relative;
-    width: 46px;
-    height: 46px;
-    border-radius: 12px;
+.logo {
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
     display: grid;
     place-items: center;
-    background: linear-gradient(135deg, #0284c7 0%, #1e40af 100%);
-    box-shadow: 0 0 20px rgba(2, 132, 199, 0.4);
-    font-size: 22px;
+    background: linear-gradient(135deg, #0284c7, #1d4ed8);
+    font-size: 20px;
 }
 
-.brand-text h1 {
-    font-size: 21px;
+.brand h1 {
+    font-size: 19px;
     font-weight: 800;
     letter-spacing: -0.02em;
-    background: linear-gradient(135deg, #ffffff 0%, #bae6fd 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
 }
 
-.brand-text p {
-    color: var(--text-secondary);
+.brand p {
     font-size: 12px;
-    font-weight: 500;
-    letter-spacing: 0.04em;
-    text-transform: uppercase;
+    color: var(--text-muted);
 }
 
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: 10px;
     flex-wrap: wrap;
 }
 
-.user-badge {
-    display: flex;
+.pill {
+    display: inline-flex;
     align-items: center;
-    gap: 8px;
-    padding: 7px 14px;
-    border-radius: 30px;
-    background: rgba(30, 41, 59, 0.6);
+    gap: 7px;
+    padding: 6px 13px;
+    border-radius: 999px;
+    background: var(--surface);
     border: 1px solid var(--border);
-    font-size: 13px;
-    color: var(--text-secondary);
-}
-
-.user-badge strong {
-    color: var(--text-primary);
-}
-
-.system-status-pill {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 7px 14px;
-    border-radius: 30px;
-    background: rgba(16, 185, 129, 0.1);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: var(--green-alert);
     font-size: 12px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    transition: all 0.3s ease;
+    font-weight: 600;
+    color: var(--text-muted);
 }
 
-.status-dot {
+.pill strong {
+    color: var(--text);
+}
+
+.status-pill {
+    color: var(--text-muted);
+}
+
+.status-pill.active {
+    background: rgba(16, 185, 129, 0.12);
+    border-color: rgba(16, 185, 129, 0.35);
+    color: var(--green);
+}
+
+.status-pill.error {
+    background: rgba(244, 63, 94, 0.12);
+    border-color: rgba(244, 63, 94, 0.35);
+    color: var(--red);
+}
+
+.dot {
     width: 8px;
     height: 8px;
     border-radius: 50%;
-    background-color: currentColor;
-    box-shadow: 0 0 10px currentColor;
-    animation: statusPulse 1.8s infinite;
+    background: currentColor;
 }
 
-@keyframes statusPulse {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.4; transform: scale(0.85); }
-}
-
-.sound-btn-header {
-    background: rgba(30, 41, 59, 0.6);
+.header-btn {
+    background: var(--surface);
     border: 1px solid var(--border);
-    color: var(--text-secondary);
+    color: var(--text-muted);
     padding: 7px 14px;
-    border-radius: 30px;
+    border-radius: 999px;
     font-size: 12px;
     font-weight: 600;
+    font-family: inherit;
     cursor: pointer;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     gap: 6px;
-    transition: all 0.2s;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
 }
 
-.sound-btn-header:hover {
-    color: var(--text-primary);
-    border-color: var(--blue-accent);
+.header-btn:hover {
+    color: var(--text);
+    border-color: var(--accent);
 }
 
-.sound-btn-header.active {
-    background: rgba(56, 189, 248, 0.15);
-    border-color: var(--blue-accent);
-    color: var(--blue-accent);
-}
-
-.logout-btn {
-    background: transparent;
-    border: 1px solid var(--border);
-    color: var(--text-secondary);
-    padding: 7px 15px;
-    border-radius: 30px;
-    font-size: 12px;
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
+.header-btn.active {
+    background: rgba(56, 189, 248, 0.14);
+    border-color: var(--accent);
+    color: var(--accent);
 }
 
 .logout-btn:hover {
-    background: rgba(244, 63, 94, 0.15);
-    border-color: var(--red-drowsy);
-    color: var(--red-drowsy);
+    border-color: var(--red);
+    color: var(--red);
 }
 
-/* Main Container */
 main {
-    max-width: 1540px;
+    max-width: 1280px;
     margin: 0 auto;
     padding: 24px 4% 40px;
 }
 
-/* Top Telematics Metrics Grid */
-.telematics-grid {
+/* Top 4 Main Summary Cards */
+.metrics-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 16px;
-    margin-bottom: 24px;
+    margin-bottom: 22px;
 }
 
 .metric-card {
-    background: var(--bg-card);
+    background: var(--surface);
     border: 1px solid var(--border);
     border-radius: 16px;
-    padding: 18px;
+    padding: 18px 20px;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+    gap: 10px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.05);
 }
 
-.metric-card:hover {
-    transform: translateY(-2px);
-    border-color: var(--border-highlight);
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+.metric-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--text-muted);
 }
 
-.metric-header {
+.metric-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 28px;
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.metric-sub {
+    font-size: 12px;
+    color: var(--text-muted);
     display: flex;
     align-items: center;
     justify-content: space-between;
     gap: 8px;
-    margin-bottom: 10px;
 }
 
-.metric-title {
-    color: var(--text-secondary);
-    font-size: 11px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-}
-
-.metric-icon-badge {
-    width: 32px;
-    height: 32px;
-    border-radius: 9px;
-    display: grid;
-    place-items: center;
-    background: rgba(30, 41, 59, 0.7);
-    color: var(--blue-accent);
-    font-size: 15px;
-}
-
-.metric-value-row {
-    display: flex;
-    align-items: baseline;
-    gap: 6px;
-}
-
-.metric-main-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 26px;
-    font-weight: 700;
-    color: var(--text-primary);
-    letter-spacing: -0.03em;
-}
-
-.metric-sub-value {
-    font-size: 12px;
-    color: var(--text-muted);
-}
-
-.metric-footer {
-    margin-top: 10px;
-    font-size: 11px;
-    color: var(--text-secondary);
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-}
-
-/* Real-Time Driver State Badge inside Metric */
 .driver-state-badge {
     display: inline-flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 10px;
+    padding: 6px 12px;
     border-radius: 8px;
     font-size: 13px;
     font-weight: 800;
-    letter-spacing: 0.05em;
-    background: rgba(16, 185, 129, 0.15);
-    color: var(--green-alert);
-    border: 1px solid rgba(16, 185, 129, 0.3);
+    letter-spacing: 0.04em;
+    width: fit-content;
+    background: rgba(148, 163, 184, 0.14);
+    color: var(--text-muted);
+    border: 1px solid var(--border);
 }
 
 .driver-state-badge.state-alert {
     background: rgba(16, 185, 129, 0.15);
-    color: var(--green-alert);
-    border-color: rgba(16, 185, 129, 0.3);
+    color: var(--green);
+    border-color: rgba(16, 185, 129, 0.35);
 }
 
 .driver-state-badge.state-warning {
     background: rgba(245, 158, 11, 0.15);
-    color: var(--yellow-warning);
-    border-color: rgba(245, 158, 11, 0.3);
+    color: var(--yellow);
+    border-color: rgba(245, 158, 11, 0.35);
 }
 
 .driver-state-badge.state-drowsy {
-    background: rgba(244, 63, 94, 0.2);
-    color: var(--red-drowsy);
-    border-color: rgba(244, 63, 94, 0.5);
-    box-shadow: 0 0 15px var(--red-glow);
-    animation: flashAlert 0.8s infinite alternate;
+    background: rgba(244, 63, 94, 0.22);
+    color: var(--red);
+    border-color: rgba(244, 63, 94, 0.55);
+    animation: pulseAlert 0.8s infinite alternate;
 }
 
-@keyframes flashAlert {
-    from { opacity: 0.8; }
-    to { opacity: 1; transform: scale(1.02); }
+@keyframes pulseAlert {
+    from { opacity: 0.85; }
+    to { opacity: 1; }
 }
 
-/* Layout Split */
+.ear-bar-track {
+    height: 6px;
+    border-radius: 999px;
+    background: var(--surface-soft);
+    overflow: hidden;
+}
+
+.ear-bar-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 999px;
+    background: var(--green);
+    transition: width 0.15s ease, background-color 0.2s ease;
+}
+
+/* Main Content Layout */
 .dashboard-layout {
     display: grid;
-    grid-template-columns: minmax(0, 1.9fr) minmax(360px, 1fr);
-    gap: 22px;
+    grid-template-columns: minmax(0, 1.85fr) minmax(300px, 1fr);
+    gap: 20px;
     align-items: start;
 }
 
-/* Main Monitoring Panel */
 .panel {
-    background: var(--bg-card);
+    background: var(--surface);
     border: 1px solid var(--border);
-    border-radius: 20px;
+    border-radius: 18px;
     overflow: hidden;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-    margin-bottom: 22px;
+    box-shadow: 0 1px 4px rgba(15, 23, 42, 0.06);
 }
 
 .panel-header {
-    padding: 18px 24px;
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 16px;
-    border-bottom: 1px solid var(--border);
+    gap: 12px;
     flex-wrap: wrap;
-    background: rgba(12, 20, 36, 0.8);
 }
 
-.panel-title-group h3 {
-    font-size: 17px;
+.panel-header h2 {
+    font-size: 16px;
     font-weight: 700;
-    letter-spacing: -0.01em;
 }
 
-.panel-title-group p {
-    color: var(--text-secondary);
-    font-size: 12px;
-    margin-top: 2px;
-}
-
-.panel-badge {
-    display: inline-flex;
+.panel-header-right {
+    display: flex;
     align-items: center;
-    gap: 6px;
-    padding: 4px 12px;
-    border-radius: 20px;
+    gap: 10px;
+}
+
+.timer-chip {
+    font-family: 'JetBrains Mono', monospace;
     font-size: 12px;
     font-weight: 600;
-    background: rgba(30, 41, 59, 0.8);
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: var(--surface-soft);
     border: 1px solid var(--border);
-    color: var(--text-secondary);
+    color: var(--text);
 }
 
-/* Video Feed Container */
-.video-monitoring-container {
-    position: relative;
-    background: #020610;
-    padding: 12px;
+/* Video Container */
+.video-box {
+    padding: 14px;
+    background: var(--surface-soft);
 }
 
 .video-wrapper {
     position: relative;
     width: 100%;
-    aspect-ratio: 16/9;
-    border-radius: 14px;
+    aspect-ratio: 16 / 9;
+    border-radius: 12px;
     overflow: hidden;
-    background: #040914;
-    border: 1px solid #1a2a47;
+    background: #f1f5f9;
+    border: 1px solid var(--border);
     display: grid;
     place-items: center;
 }
@@ -483,140 +333,108 @@ main {
     display: none;
 }
 
-.camera-standby-placeholder {
+.camera-placeholder {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    gap: 12px;
-    padding: 30px;
+    gap: 10px;
+    padding: 24px;
     text-align: center;
-    color: var(--text-secondary);
+    color: var(--text-muted);
 }
 
-.standby-icon-ring {
-    width: 64px;
-    height: 64px;
+.camera-placeholder-icon {
+    width: 56px;
+    height: 56px;
     border-radius: 50%;
-    background: rgba(30, 41, 59, 0.8);
-    border: 1px solid var(--border);
     display: grid;
     place-items: center;
-    font-size: 28px;
-    margin-bottom: 6px;
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    font-size: 24px;
 }
 
-.camera-standby-placeholder h4 {
-    font-size: 16px;
-    color: var(--text-primary);
+.camera-placeholder h3 {
+    font-size: 15px;
+    color: var(--text);
 }
 
-.camera-standby-placeholder p {
+.camera-placeholder p {
     font-size: 13px;
-    color: var(--text-muted);
-    max-width: 380px;
+    max-width: 340px;
 }
 
-/* HUD Overlay on Video */
-.video-hud-overlay {
+.video-hud {
     position: absolute;
     inset: 12px;
     pointer-events: none;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    padding: 16px;
-    border-radius: 14px;
-    z-index: 10;
 }
 
-.hud-top-row {
+.hud-top {
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    gap: 8px;
 }
 
 .hud-tag {
-    background: rgba(6, 11, 20, 0.75);
+    background: rgba(15, 23, 42, 0.78);
     backdrop-filter: blur(8px);
-    border: 1px solid rgba(56, 189, 248, 0.3);
-    color: var(--blue-accent);
-    padding: 5px 12px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    color: #38bdf8;
+    padding: 5px 11px;
     border-radius: 8px;
     font-family: 'JetBrains Mono', monospace;
     font-size: 11px;
     font-weight: 600;
-    display: flex;
-    align-items: center;
-    gap: 6px;
 }
 
-.hud-center-reticle {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 220px;
-    height: 260px;
-    border: 1px dashed rgba(56, 189, 248, 0.3);
-    border-radius: 16px;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 8px;
-    opacity: 0.6;
-    transition: all 0.3s;
-}
-
-.hud-corner {
-    width: 14px;
-    height: 14px;
-    border-color: var(--blue-accent);
-    border-style: solid;
-}
-.hud-corner.tl { border-width: 2px 0 0 2px; }
-.hud-corner.tr { border-width: 2px 2px 0 0; align-self: flex-end; }
-.hud-corner.bl { border-width: 0 0 2px 2px; }
-.hud-corner.br { border-width: 0 2px 2px 0; align-self: flex-end; }
-
-.hud-bottom-banner {
-    background: rgba(6, 11, 20, 0.85);
-    backdrop-filter: blur(10px);
-    border: 1px solid var(--border);
-    padding: 10px 18px;
+.hud-banner {
+    background: rgba(15, 23, 42, 0.84);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    padding: 10px 16px;
     border-radius: 10px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    font-size: 13px;
+    font-weight: 600;
+    color: #ffffff;
 }
 
-/* Control Toolbar */
-.control-toolbar {
-    padding: 18px 24px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 12px;
-    background: rgba(12, 20, 36, 0.5);
+.hud-banner.alert-active {
+    background: rgba(185, 28, 28, 0.96);
+    border-color: #ef4444;
+    color: #ffffff;
+    box-shadow: 0 0 20px rgba(239, 68, 68, 0.45);
+}
+
+/* Controls */
+.toolbar {
+    padding: 16px 20px;
     border-top: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .btn {
     border: none;
     border-radius: 10px;
-    padding: 11px 18px;
+    padding: 10px 18px;
     font-size: 13px;
     font-weight: 700;
+    font-family: inherit;
     cursor: pointer;
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    transition: all 0.2s ease;
-    font-family: inherit;
+    transition: opacity 0.2s, transform 0.15s, border-color 0.2s;
 }
 
 .btn:hover:not(:disabled) {
     transform: translateY(-1px);
-    filter: brightness(1.1);
 }
 
 .btn:disabled {
@@ -625,258 +443,52 @@ main {
     transform: none;
 }
 
-.btn-primary {
-    background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+.btn-start {
+    background: var(--green);
     color: #ffffff;
-    box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
 }
 
-.btn-danger {
-    background: linear-gradient(135deg, #f43f5e 0%, #be123c 100%);
+.btn-stop {
+    background: var(--red);
     color: #ffffff;
-    box-shadow: 0 4px 14px rgba(244, 63, 94, 0.3);
 }
 
 .btn-secondary {
-    background: #1e293b;
-    border: 1px solid var(--border-highlight);
-    color: var(--text-primary);
+    background: var(--surface-soft);
+    border: 1px solid var(--border);
+    color: var(--text);
 }
 
 .btn-secondary:hover:not(:disabled) {
-    background: #334155;
-    border-color: var(--blue-accent);
+    border-color: var(--accent);
 }
 
-.btn-outline {
+.btn-clear {
     background: transparent;
     border: 1px solid var(--border);
-    color: var(--text-secondary);
-}
-
-.btn-outline:hover:not(:disabled) {
-    border-color: var(--blue-accent);
-    color: var(--text-primary);
-}
-
-/* EAR Telemetry Waveform and Gauge */
-.telemetry-panel-body {
-    padding: 20px 24px;
-}
-
-.gauge-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-}
-
-.gauge-label {
-    font-size: 13px;
-    font-weight: 600;
-    color: var(--text-secondary);
-}
-
-.gauge-value {
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 14px;
-    font-weight: 700;
-    color: var(--blue-accent);
-}
-
-.ear-meter-bar-container {
-    height: 12px;
-    border-radius: 8px;
-    background: #1e293b;
-    overflow: hidden;
-    position: relative;
-    border: 1px solid var(--border);
-    margin-bottom: 12px;
-}
-
-.ear-meter-fill {
-    height: 100%;
-    width: 0%;
-    border-radius: 8px;
-    transition: width 0.15s ease, background-color 0.2s ease;
-    background: var(--green-alert);
-}
-
-.ear-threshold-marker {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 50%;
-    width: 2px;
-    background: #f43f5e;
-    z-index: 5;
-}
-
-.chart-wrapper {
-    margin-top: 14px;
-    background: #040813;
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 12px 14px;
-}
-
-.chart-title-row {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 8px;
-    font-size: 11px;
     color: var(--text-muted);
-    font-family: 'JetBrains Mono', monospace;
-}
-
-#earCanvas {
-    width: 100%;
-    height: 90px;
-    display: block;
-}
-
-/* Sidebar Panels */
-.side-panel {
-    background: var(--bg-card);
-    border: 1px solid var(--border);
-    border-radius: 18px;
-    margin-bottom: 22px;
-    overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
-}
-
-.side-panel-header {
-    padding: 16px 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-bottom: 1px solid var(--border);
-    background: rgba(12, 20, 36, 0.7);
-}
-
-.side-panel-header h3 {
-    font-size: 15px;
-    font-weight: 700;
-}
-
-.side-panel-body {
-    padding: 18px 20px;
-}
-
-/* SMS Settings Form */
-.form-group {
-    margin-bottom: 14px;
-}
-
-.form-label {
-    display: block;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--text-secondary);
-    margin-bottom: 6px;
-}
-
-.input-field {
-    width: 100%;
-    padding: 10px 14px;
-    border-radius: 10px;
-    background: #070e1b;
-    border: 1px solid var(--border);
-    color: var(--text-primary);
-    font-size: 13px;
-    font-family: 'JetBrains Mono', monospace;
-    outline: none;
-    transition: border-color 0.2s, box-shadow 0.2s;
-}
-
-.input-field:focus {
-    border-color: var(--blue-accent);
-    box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.15);
-}
-
-.checkbox-group {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 16px;
-    font-size: 13px;
-    color: var(--text-secondary);
-    cursor: pointer;
-}
-
-.checkbox-group input {
-    width: 16px;
-    height: 16px;
-    accent-color: var(--blue-accent);
-    cursor: pointer;
-}
-
-.sms-action-row {
-    display: flex;
-    gap: 10px;
-    margin-top: 10px;
-}
-
-.sms-status-display {
-    margin-top: 14px;
-    padding: 10px 12px;
-    border-radius: 10px;
-    background: #081121;
-    border: 1px solid var(--border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    font-size: 12px;
-}
-
-.sms-status-badge {
-    padding: 3px 8px;
-    border-radius: 6px;
+    padding: 5px 11px;
     font-size: 11px;
-    font-weight: 700;
-    background: rgba(56, 189, 248, 0.15);
-    color: var(--blue-accent);
-}
-
-.alert-feedback-banner {
-    font-size: 12px;
-    margin-top: 10px;
-    padding: 8px 12px;
     border-radius: 8px;
-    display: none;
-}
-.alert-feedback-banner.success {
-    background: rgba(16, 185, 129, 0.15);
-    border: 1px solid rgba(16, 185, 129, 0.3);
-    color: #6ee7b7;
-    display: block;
-}
-.alert-feedback-banner.error {
-    background: rgba(244, 63, 94, 0.15);
-    border: 1px solid rgba(244, 63, 94, 0.3);
-    color: #fda4af;
-    display: block;
 }
 
-/* Alert History Feed */
-.history-feed {
+.btn-clear:hover {
+    color: var(--text);
+    border-color: var(--accent);
+}
+
+/* Alert History */
+.history-body {
+    padding: 16px;
+}
+
+.history-list {
     list-style: none;
-    max-height: 280px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    max-height: 440px;
     overflow-y: auto;
-    padding-right: 4px;
-}
-
-.history-feed::-webkit-scrollbar {
-    width: 6px;
-}
-.history-feed::-webkit-scrollbar-track {
-    background: #081121;
-    border-radius: 3px;
-}
-.history-feed::-webkit-scrollbar-thumb {
-    background: #1e293b;
-    border-radius: 3px;
 }
 
 .history-item {
@@ -884,48 +496,34 @@ main {
     align-items: flex-start;
     gap: 10px;
     padding: 10px 12px;
-    margin-bottom: 8px;
-    background: #070e1c;
+    background: var(--surface-soft);
     border: 1px solid var(--border);
     border-radius: 10px;
     font-size: 12px;
-    line-height: 1.4;
-    transition: transform 0.15s ease;
 }
 
-.history-item:hover {
-    border-color: var(--border-highlight);
-}
-
-.history-type-badge {
+.history-badge {
     padding: 2px 6px;
     border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
     font-size: 10px;
     font-weight: 700;
-    text-transform: uppercase;
-    font-family: 'JetBrains Mono', monospace;
     flex-shrink: 0;
 }
 
-.type-critical {
+.badge-critical {
     background: rgba(244, 63, 94, 0.2);
-    color: var(--red-drowsy);
-    border: 1px solid rgba(244, 63, 94, 0.4);
+    color: var(--red);
 }
-.type-sms {
-    background: rgba(56, 189, 248, 0.2);
-    color: var(--blue-accent);
-    border: 1px solid rgba(56, 189, 248, 0.4);
-}
-.type-warning {
+
+.badge-warning {
     background: rgba(245, 158, 11, 0.2);
-    color: var(--yellow-warning);
-    border: 1px solid rgba(245, 158, 11, 0.4);
+    color: var(--yellow);
 }
-.type-system {
-    background: rgba(148, 163, 184, 0.15);
-    color: var(--text-secondary);
-    border: 1px solid var(--border);
+
+.badge-system {
+    background: rgba(148, 163, 184, 0.16);
+    color: var(--text-muted);
 }
 
 .history-time {
@@ -936,466 +534,175 @@ main {
     flex-shrink: 0;
 }
 
-.history-empty-state {
+.history-empty {
     text-align: center;
-    padding: 24px 12px;
+    padding: 36px 12px;
     color: var(--text-muted);
-    font-size: 12px;
+    font-size: 13px;
 }
 
-/* System Spec Info */
-.info-spec-item {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 10px 0;
-    border-bottom: 1px solid rgba(30, 41, 59, 0.5);
-}
-.info-spec-item:last-child {
-    border-bottom: none;
-}
-.info-spec-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: rgba(30, 41, 59, 0.6);
-    display: grid;
-    place-items: center;
-    font-size: 16px;
-    color: var(--blue-accent);
-}
-.info-spec-text h5 {
-    font-size: 12px;
-    font-weight: 600;
-}
-.info-spec-text p {
-    font-size: 11px;
-    color: var(--text-muted);
-}
-
-/* Footer Note */
-footer {
-    text-align: center;
-    padding: 24px 10px;
-    border-top: 1px solid var(--border);
-    color: var(--text-muted);
-    font-size: 12px;
-}
-
-/* Responsive Breakpoints */
-@media (max-width: 1280px) {
-    .telematics-grid {
-        grid-template-columns: repeat(3, 1fr);
+@media (max-width: 1024px) {
+    .metrics-grid {
+        grid-template-columns: repeat(2, 1fr);
     }
-}
-
-@media (max-width: 992px) {
     .dashboard-layout {
         grid-template-columns: 1fr;
     }
-    .telematics-grid {
-        grid-template-columns: repeat(2, 1fr);
-    }
 }
 
-@media (max-width: 580px) {
-    header {
-        padding: 12px 4%;
-    }
-    .telematics-grid {
+@media (max-width: 560px) {
+    .metrics-grid {
         grid-template-columns: 1fr;
     }
-    .control-toolbar {
-        flex-direction: column;
-    }
-    .control-toolbar .btn {
-        width: 100%;
+    .toolbar .btn {
+        flex: 1;
         justify-content: center;
     }
 }
 </style>
 </head>
-
 <body>
 
-<!-- Header -->
 <header>
     <div class="brand">
-        <div class="logo-container">🛡️</div>
-        <div class="brand-text">
+        <div class="logo">🛡️</div>
+        <div>
             <h1>DriveSafe</h1>
-            <p>Commercial Driver Safety Telematics</p>
+            <p>Driver Drowsiness Monitor</p>
         </div>
     </div>
+
     <div class="header-actions">
-        <div class="user-badge">
-            <span>Driver:</span> <strong>{{ user_name|e }}</strong>
+        <div class="pill">Driver: <strong>{{ user_name|e }}</strong></div>
+        <div class="pill status-pill" id="systemStatePill">
+            <span class="dot"></span>
+            <span id="systemStateText">Standby</span>
         </div>
-        <div style="display:flex;align-items:center;gap:6px;padding:4px 12px;border-radius:30px;background:rgba(20,24,36,0.7);border:1px solid var(--border)">
-            <span style="font-size:11px;font-weight:700;color:var(--text-muted)">BG:</span>
-            <button type="button" style="background:#000000;border:2px solid #38bdf8;width:18px;height:18px;border-radius:50%;cursor:pointer;outline:none" title="Pure Pitch Black (OLED)" onclick="changeTheme('pureblack')"></button>
-            <button type="button" style="background:#121215;border:1px solid #475569;width:18px;height:18px;border-radius:50%;cursor:pointer;outline:none" title="Graphite Dark" onclick="changeTheme('graphite')"></button>
-            <button type="button" style="background:#060d1c;border:1px solid #475569;width:18px;height:18px;border-radius:50%;cursor:pointer;outline:none" title="Midnight Navy" onclick="changeTheme('midnight')"></button>
-            <button type="button" style="background:#04120c;border:1px solid #475569;width:18px;height:18px;border-radius:50%;cursor:pointer;outline:none" title="Emerald Green" onclick="changeTheme('emerald')"></button>
-            <button type="button" style="background:#0c0517;border:1px solid #475569;width:18px;height:18px;border-radius:50%;cursor:pointer;outline:none" title="Cyber Violet" onclick="changeTheme('purple')"></button>
-            <button type="button" style="background:#f8fafc;border:1px solid #94a3b8;width:18px;height:18px;border-radius:50%;cursor:pointer;outline:none" title="Modern Light Theme" onclick="changeTheme('light')"></button>
-            <label style="display:flex;align-items:center;cursor:pointer;margin-left:2px" title="Pick Any Custom Background Color">
-                <span style="font-size:13px">🎨</span>
-                <input type="color" id="customBgPicker" value="#000000" style="opacity:0;position:absolute;width:1px;height:1px" onchange="applyCustomBg(this.value)">
-            </label>
-        </div>
-        <div class="system-status-pill" id="systemStatePill">
-            <span class="status-dot"></span>
-            <span id="systemStateText">System Standby</span>
-        </div>
-        <button class="sound-btn-header" id="headerSoundBtn" onclick="toggleSound()">
+        <button type="button" class="header-btn" id="headerSoundBtn" onclick="toggleSound()">
             <span id="soundIcon">🔇</span>
             <span id="soundText">Sound Off</span>
         </button>
-        <button class="sound-btn-header" id="testAlarmBtn" onclick="testAudioAlarm()" title="Test audio alarm and voice synthesizer">
-            <span>🔔</span> Test Alarm
-        </button>
-        <button class="sound-btn-header" id="testDrowsyBtn" onclick="testDrowsyAlertVisual()" title="Preview the drowsiness alert banner" style="background:rgba(239,68,68,0.18);border-color:rgba(239,68,68,0.45);color:#fca5a5">
-            <span>🚨</span> Alert Preview
-        </button>
-        <form method="POST" action="{{ url_for('logout') }}" onsubmit="return confirm('Confirm log out of DriveSafe?')">
-            <button class="logout-btn" type="submit">Logout ↗</button>
+        <form method="POST" action="{{ url_for('logout') }}" onsubmit="return confirm('Log out of DriveSafe?')">
+            <button type="submit" class="header-btn logout-btn">Logout</button>
         </form>
     </div>
 </header>
 
 <main>
+    <!-- Main 4 Metrics -->
+    <section class="metrics-grid">
+        <div class="metric-card">
+            <span class="metric-label">Driver State</span>
+            <span class="driver-state-badge" id="driverStateBadge">STANDBY</span>
+            <div class="metric-sub">
+                <span>Face Status</span>
+                <span id="faceDetectStatus">Not active</span>
+            </div>
+        </div>
 
-<!-- Telematics Top Metrics Cards -->
-<section class="telematics-grid">
-    <!-- Driver State Card -->
-    <div class="metric-card">
-        <div class="metric-header">
-            <span class="metric-title">Driver State</span>
-            <span class="metric-icon-badge">👤</span>
+        <div class="metric-card">
+            <span class="metric-label">Blink Count</span>
+            <div class="metric-value" id="blinkCount">0</div>
+            <div class="metric-sub">
+                <span id="blinkWindowText">0.08s – 0.80s blinks</span>
+            </div>
         </div>
-        <div class="metric-value-row">
-            <span class="driver-state-badge state-alert" id="driverStateBadge">STANDBY</span>
-        </div>
-        <div class="metric-footer">
-            <span>Live Face Telemetry</span>
-            <span id="faceDetectStatus">Not active</span>
-        </div>
-    </div>
 
-    <!-- Blink Counter Card -->
-    <div class="metric-card" id="blinkCard">
-        <div class="metric-header">
-            <span class="metric-title">Blink Counter</span>
-            <span class="metric-icon-badge">👁️</span>
+        <div class="metric-card">
+            <span class="metric-label">Drowsiness Alerts</span>
+            <div class="metric-value" id="alertCount" style="color: var(--red)">0</div>
+            <div class="metric-sub">
+                <span id="drowsyThresholdText">Alert after 2.0s closed</span>
+                <span id="alertFlag">None</span>
+            </div>
         </div>
-        <div class="metric-value-row">
-            <span class="metric-main-value" id="blinkCount">0</span>
-            <span class="metric-sub-value">blinks</span>
-        </div>
-        <div class="metric-footer">
-            <span id="blinkWindowText">Blink window: 0.08s - 0.80s</span>
-            <span>Normal</span>
-        </div>
-    </div>
 
-    <!-- Drowsiness Incidents Card -->
-    <div class="metric-card" id="drowsyCard">
-        <div class="metric-header">
-            <span class="metric-title">Drowsiness Alerts</span>
-            <span class="metric-icon-badge">🚨</span>
+        <div class="metric-card">
+            <span class="metric-label">Eye Ratio (EAR)</span>
+            <div style="display:flex;align-items:baseline;gap:6px">
+                <span class="metric-value" id="earMetricValue">—</span>
+                <span style="font-size:12px;color:var(--text-muted)" id="earThresholdSub">/ 0.220</span>
+            </div>
+            <div class="ear-bar-track">
+                <div class="ear-bar-fill" id="earMeterFill"></div>
+            </div>
+            <div class="metric-sub">
+                <span>Threshold: <strong id="eyeCloseThresholdLabel">0.220</strong></span>
+                <span id="earZone">Standby</span>
+            </div>
         </div>
-        <div class="metric-value-row">
-            <span class="metric-main-value" id="alertCount" style="color: var(--red-drowsy)">0</span>
-            <span class="metric-sub-value">events</span>
-        </div>
-        <div class="metric-footer">
-            <span id="drowsyThresholdText">Alert after 2.0s closed</span>
-            <span id="alertFlag">None</span>
-        </div>
-    </div>
+    </section>
 
-    <!-- Eye Aspect Ratio (EAR) Card -->
-    <div class="metric-card">
-        <div class="metric-header">
-            <span class="metric-title">Live Eye Ratio (EAR)</span>
-            <span class="metric-icon-badge">📐</span>
-        </div>
-        <div class="metric-value-row">
-            <span class="metric-main-value" id="earMetricValue">—</span>
-            <span class="metric-sub-value" id="earThresholdSub">/ 0.220</span>
-        </div>
-        <div class="metric-footer">
-            <span>Close &lt; <strong id="eyeCloseThresholdLabel">0.220</strong> · Open ≥ <strong id="eyeOpenThresholdLabel">0.260</strong></span>
-            <span id="earZone">Standby</span>
-        </div>
-    </div>
-
-    <!-- Session Duration Timer Card -->
-    <div class="metric-card">
-        <div class="metric-header">
-            <span class="metric-title">Monitoring Timer</span>
-            <span class="metric-icon-badge">⏱️</span>
-        </div>
-        <div class="metric-value-row">
-            <span class="metric-main-value" id="timerValue">00:00:00</span>
-        </div>
-        <div class="metric-footer">
-            <span>Session Duration</span>
-            <span id="timerStatus">Inactive</span>
-        </div>
-    </div>
-
-    <!-- SMS Gateway Status Card -->
-    <div class="metric-card">
-        <div class="metric-header">
-            <span class="metric-title">SMS Gateway</span>
-            <span class="metric-icon-badge">📱</span>
-        </div>
-        <div class="metric-value-row">
-            <span class="metric-main-value" id="smsMetricValue" style="font-size: 20px">Checking...</span>
-        </div>
-        <div class="metric-footer">
-            <span id="smsRecipientPreview">Mobile Alert System</span>
-            <span id="smsReadyDot">●</span>
-        </div>
-    </div>
-</section>
-
-<!-- Dashboard Main Grid -->
-<section class="dashboard-layout">
-
-    <!-- Left Column: Camera Viewport & Real-Time Waveform -->
-    <div>
-        <!-- Live Webcam Panel -->
+    <!-- Camera + Alert History -->
+    <section class="dashboard-layout">
         <div class="panel">
             <div class="panel-header">
-                <div class="panel-title-group">
-                    <h3>Live Vision Stream</h3>
-                    <p>Facial Landmark & Eye Aspect Ratio Telemetry</p>
-                </div>
-                <div class="panel-badge" id="cameraBadge">
-                    <span class="status-dot" style="background:#64748b;box-shadow:none"></span>
-                    <span id="cameraBadgeText">Camera Inactive</span>
+                <h2>Live Camera</h2>
+                <div class="panel-header-right">
+                    <span class="timer-chip" id="timerValue">00:00:00</span>
+                    <div class="pill" id="cameraBadge">
+                        <span class="dot" style="color: var(--text-muted)"></span>
+                        <span id="cameraBadgeText">Camera Off</span>
+                    </div>
                 </div>
             </div>
 
-            <!-- Video Wrapper -->
-            <div class="video-monitoring-container">
+            <div class="video-box">
                 <div class="video-wrapper">
-                    <!-- Placeholder when Camera is stopped -->
-                    <div class="camera-standby-placeholder" id="cameraPlaceholder">
-                        <div class="standby-icon-ring">📷</div>
-                        <h4>Camera Feed Suspended</h4>
-                        <p>Press <strong>Start Monitoring</strong> below to activate camera and driver vigilance tracking.</p>
+                    <div class="camera-placeholder" id="cameraPlaceholder">
+                        <div class="camera-placeholder-icon">📷</div>
+                        <h3>Camera Feed Inactive</h3>
+                        <p>Click <strong>Start Monitoring</strong> below to start webcam drowsiness detection.</p>
                     </div>
 
-                    <!-- Video and processing Canvas -->
                     <video id="camera" autoplay playsinline muted></video>
                     <canvas id="frameCanvas" style="display:none"></canvas>
 
-                    <!-- HUD Overlay -->
-                    <div class="video-hud-overlay" id="hudOverlay" style="display:none">
-                        <div class="hud-top-row">
-                            <span class="hud-tag"><span>REC</span> LIVE 640×480</span>
+                    <div class="video-hud" id="hudOverlay" style="display:none">
+                        <div class="hud-top">
                             <span class="hud-tag" id="hudEarTag">EAR: —</span>
                             <span class="hud-tag" id="hudEyeTag">EYES: —</span>
                         </div>
-                        <div class="hud-center-reticle">
-                            <div style="display:flex;justify-content:space-between">
-                                <span class="hud-corner tl"></span>
-                                <span class="hud-corner tr"></span>
-                            </div>
-                            <div style="display:flex;justify-content:space-between">
-                                <span class="hud-corner bl"></span>
-                                <span class="hud-corner br"></span>
-                            </div>
-                        </div>
-                        <div class="hud-bottom-banner" id="drowsinessAlertBanner" role="status" aria-live="assertive">
-                            <span style="font-size:12px;font-weight:600" id="hudMessage">Analyzing driver face...</span>
-                            <span class="hud-tag" id="hudFpsTag">MAX: 10 FPS</span>
+                        <div class="hud-banner" id="drowsinessAlertBanner" role="status" aria-live="assertive">
+                            <span id="hudMessage">Analyzing driver face...</span>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- Toolbar Controls -->
-            <div class="control-toolbar">
-                <button class="btn btn-primary" id="startButton" onclick="startMonitoring()">
-                    <span>▶</span> Start Monitoring
+            <div class="toolbar">
+                <button type="button" class="btn btn-start" id="startButton" onclick="startMonitoring()">
+                    ▶ Start Monitoring
                 </button>
-                <button class="btn btn-danger" id="stopButton" onclick="stopMonitoring()" disabled>
-                    <span>⏹</span> Stop Monitoring
+                <button type="button" class="btn btn-stop" id="stopButton" onclick="stopMonitoring()" disabled>
+                    ⏹ Stop Monitoring
                 </button>
-                <button class="btn btn-secondary" id="cameraToggleBtn" onclick="toggleCameraOnly()">
-                    <span>📷</span> Camera Off
-                </button>
-                <button class="btn btn-secondary" id="soundToggleBtn" onclick="toggleSound()">
-                    <span>🔊</span> Sound Off
+                <button type="button" class="btn btn-secondary" id="soundToggleBtn" onclick="toggleSound()">
+                    🔇 Sound Off
                 </button>
             </div>
         </div>
 
-        <!-- Telemetry & EAR Real-time Waveform Chart Panel -->
-        <div class="panel">
+        <aside class="panel">
             <div class="panel-header">
-                <div class="panel-title-group">
-                    <h3>Biometric EAR Telemetry</h3>
-                    <p>Real-time Eye Aspect Ratio waveform against safety thresholds</p>
-                </div>
-                <div class="panel-badge">
-                    <span>Threshold Line: <strong id="gaugeThresholdLabel">0.220</strong></span>
-                </div>
+                <h2>Alert History</h2>
+                <button type="button" class="btn btn-clear" onclick="clearAlertHistory()">Clear</button>
             </div>
-            <div class="telemetry-panel-body">
-                <!-- Visual Gauge Bar -->
-                <div class="gauge-header">
-                    <span class="gauge-label">Visual Alertness Gauge</span>
-                    <span class="gauge-value" id="gaugeRatioText">EAR: 0.000</span>
-                </div>
-                <div class="ear-meter-bar-container">
-                    <div class="ear-threshold-marker" id="earThresholdMarker" title="Closed-eye threshold"></div>
-                    <div class="ear-meter-fill" id="earMeterFill"></div>
-                </div>
-
-                <!-- Canvas Waveform -->
-                <div class="chart-wrapper">
-                    <div class="chart-title-row">
-                        <span>LIVE EAR WAVEFORM (LAST 45 FRAMES)</span>
-                        <span style="color:var(--red-drowsy)">— — THRESHOLD <span id="chartThresholdLabel">0.220</span></span>
-                    </div>
-                    <canvas id="earCanvas" width="800" height="90"></canvas>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Right Column: Alert History, SMS Settings & Guide -->
-    <aside>
-        <!-- Mobile SMS Alert Settings Panel -->
-        <div class="side-panel">
-            <div class="side-panel-header">
-                <h3>📱 Mobile SMS Dispatch</h3>
-                <span class="sms-status-badge" id="smsHeaderBadge">Configuring</span>
-            </div>
-            <div class="side-panel-body">
-                <form id="smsSettingsForm">
-                    <div class="form-group">
-                        <label class="form-label" for="smsPhone">Recipient Mobile Number (India Country Code +91)</label>
-                        <input class="input-field" id="smsPhone" name="phone_number" type="tel"
-                               value="{{ phone_number|e }}" placeholder="+919876543210" pattern="\+91[0-9]{10}" maxlength="13" required>
-                        <p style="font-size:11px;color:var(--text-muted);margin-top:4px">
-                            Format: <strong>+91</strong> followed by your 10-digit mobile number (e.g. <code>+919876543210</code>).
-                        </p>
-                    </div>
-
-                    <label class="checkbox-group">
-                        <input type="checkbox" name="sms_enabled" id="smsEnabledCheckbox" {% if sms_enabled %}checked{% endif %}>
-                        <span>Enable Mobile SMS Fatigue Alerts</span>
-                    </label>
-
-                    <div class="sms-action-row">
-                        <button type="submit" class="btn btn-secondary" style="flex:1">
-                            Save Settings
-                        </button>
-                        <button type="button" class="btn btn-outline" id="testSmsBtn" onclick="sendTestSms()">
-                            Send Test SMS
-                        </button>
-                    </div>
-                </form>
-
-                <div class="sms-status-display">
-                    <span style="color:var(--text-muted)">Twilio SMS Status:</span>
-                    <strong id="smsStatusText">Checking...</strong>
-                </div>
-
-                <div class="alert-feedback-banner" id="smsFeedbackBanner"></div>
-
-                <div id="twilioConfigAlert" style="margin-top:12px;padding:10px 12px;border-radius:10px;background:rgba(245, 158, 11, 0.12);border:1px solid rgba(245, 158, 11, 0.35);font-size:12px;color:#fde68a;display:none">
-                    ⚠️ <strong>Twilio setup required:</strong> Add a valid Account SID, Auth Token, and Twilio SMS sender number to your server <code>.env</code> file.
-                </div>
-
-                <div style="margin-top:12px;font-size:11px;color:var(--text-muted);line-height:1.5">
-                    ℹ️ <strong>Rate Limiting:</strong> A 60-second cooldown is enforced to prevent repeated messages during continuous closed-eye incidents.
-                </div>
-            </div>
-        </div>
-
-        <!-- Real-Time Alert History Feed -->
-        <div class="side-panel">
-            <div class="side-panel-header">
-                <h3>🔔 Alert Incident Log</h3>
-                <button class="btn btn-outline" style="padding:4px 10px;font-size:11px" onclick="clearAlertHistory()">
-                    Clear Log
-                </button>
-            </div>
-            <div class="side-panel-body">
-                <ul class="history-feed" id="historyList">
-                    <li class="history-empty-state" id="emptyHistoryMsg">
-                        No fatigue or alert incidents recorded yet.
-                    </li>
+            <div class="history-body">
+                <ul class="history-list" id="historyList">
+                    <li class="history-empty" id="emptyHistoryMsg">No alerts recorded yet.</li>
                 </ul>
             </div>
-        </div>
-
-        <!-- System Architecture Card -->
-        <div class="side-panel">
-            <div class="side-panel-header">
-                <h3>🛡️ System Architecture</h3>
-            </div>
-            <div class="side-panel-body">
-                <div class="info-spec-item">
-                    <div class="info-spec-icon">🧠</div>
-                    <div class="info-spec-text">
-                        <h5>MediaPipe FaceMesh</h5>
-                        <p>468 3D facial landmarks tracked at low latency.</p>
-                    </div>
-                </div>
-                <div class="info-spec-item">
-                    <div class="info-spec-icon">👁️</div>
-                    <div class="info-spec-text">
-                        <h5>Eye Aspect Ratio (EAR)</h5>
-                        <p>Euclidean vertical-to-horizontal distance ratio.</p>
-                    </div>
-                </div>
-                <div class="info-spec-item">
-                    <div class="info-spec-icon">🔊</div>
-                    <div class="info-spec-text">
-                        <h5>Dual Audio Alarm</h5>
-                        <p>Web Audio synthesizer buzzer + voice speech alert.</p>
-                    </div>
-                </div>
-                <div class="info-spec-item">
-                    <div class="info-spec-icon">✉️</div>
-                    <div class="info-spec-text">
-                        <h5>Twilio SMS Gateway</h5>
-                        <p>Daemon worker thread with cooldown protection.</p>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </aside>
-
-</section>
-
-<!-- Footer -->
-<footer>
-    <p>DriveSafe Commercial Driver Vigilance & Drowsiness Telematics System</p>
-    <p style="margin-top:4px;color:#475569">Designed for vehicular safety monitoring & driver fatigue prevention.</p>
-</footer>
-
+        </aside>
+    </section>
 </main>
 
-<!-- Frontend Scripts & Telemetry Loop -->
 <script>
-// State Management
 let monitoring = false;
-let cameraActive = false;
 let soundEnabled = false;
 let audioContext = null;
 let buzzerTimer = null;
 let wasAlerting = false;
-let alertCount = 0;
 let monitoringStartedAt = null;
 let durationInterval = null;
 let captureInterval = null;
@@ -1403,15 +710,10 @@ let statusInterval = null;
 let processingFrame = false;
 let mediaStream = null;
 
-// Telemetry History for Waveform Chart
-const EAR_HISTORY_LENGTH = 45;
-const earHistory = new Array(EAR_HISTORY_LENGTH).fill(0.32);
 const FRAME_CAPTURE_INTERVAL_MS = 100;
 let EAR_THRESHOLD = 0.220;
-let EYE_OPEN_THRESHOLD = 0.260;
 let DROWSINESS_TIME = 2.0;
 
-// Elements
 const camera = document.getElementById("camera");
 const canvas = document.getElementById("frameCanvas");
 const context = canvas.getContext("2d");
@@ -1419,105 +721,26 @@ const cameraPlaceholder = document.getElementById("cameraPlaceholder");
 const hudOverlay = document.getElementById("hudOverlay");
 const startButton = document.getElementById("startButton");
 const stopButton = document.getElementById("stopButton");
-const cameraToggleBtn = document.getElementById("cameraToggleBtn");
 const soundToggleBtn = document.getElementById("soundToggleBtn");
-const earCanvas = document.getElementById("earCanvas");
-const earCtx = earCanvas.getContext("2d");
 
-// Initialize Canvas Waveform
-function drawEarChart(currentEar) {
-    if (!earCtx) return;
-    const w = earCanvas.width;
-    const h = earCanvas.height;
-
-    // Shift history
-    earHistory.shift();
-    earHistory.push(currentEar !== null && currentEar !== undefined ? currentEar : (monitoring ? 0.28 : 0.0));
-
-    // Clear
-    earCtx.clearRect(0, 0, w, h);
-
-    // Draw background grid
-    earCtx.strokeStyle = "rgba(30, 41, 59, 0.4)";
-    earCtx.lineWidth = 1;
-    for (let y = 15; y < h; y += 25) {
-        earCtx.beginPath();
-        earCtx.moveTo(0, y);
-        earCtx.lineTo(w, y);
-        earCtx.stroke();
-    }
-
-    // Min EAR: 0.0, Max EAR: 0.45
-    function toY(val) {
-        const clamped = Math.max(0, Math.min(0.45, val));
-        return h - (clamped / 0.45) * (h - 14) - 7;
-    }
-
-    // Draw configured threshold line
-    const thresholdY = toY(EAR_THRESHOLD);
-    earCtx.strokeStyle = "rgba(244, 63, 94, 0.8)";
-    earCtx.setLineDash([6, 4]);
-    earCtx.lineWidth = 1.5;
-    earCtx.beginPath();
-    earCtx.moveTo(0, thresholdY);
-    earCtx.lineTo(w, thresholdY);
-    earCtx.stroke();
-    earCtx.setLineDash([]); // reset
-
-    // Draw EAR Waveform Area Fill
-    const step = w / (EAR_HISTORY_LENGTH - 1);
-    earCtx.beginPath();
-    earCtx.moveTo(0, h);
-    for (let i = 0; i < EAR_HISTORY_LENGTH; i++) {
-        const x = i * step;
-        const y = toY(earHistory[i]);
-        if (i === 0) earCtx.lineTo(x, y);
-        else earCtx.lineTo(x, y);
-    }
-    earCtx.lineTo(w, h);
-    earCtx.closePath();
-
-    const grad = earCtx.createLinearGradient(0, 0, 0, h);
-    grad.addColorStop(0, "rgba(56, 189, 248, 0.35)");
-    grad.addColorStop(1, "rgba(56, 189, 248, 0.0)");
-    earCtx.fillStyle = grad;
-    earCtx.fill();
-
-    // Draw EAR Waveform Stroke Line
-    earCtx.beginPath();
-    for (let i = 0; i < EAR_HISTORY_LENGTH; i++) {
-        const x = i * step;
-        const y = toY(earHistory[i]);
-        if (i === 0) earCtx.moveTo(x, y);
-        else earCtx.lineTo(x, y);
-    }
-    const belowThreshold = currentEar !== null && currentEar !== undefined && currentEar < EAR_THRESHOLD;
-    earCtx.strokeStyle = belowThreshold ? "#f43f5e" : "#00f0ff";
-    earCtx.lineWidth = 2.5;
-    earCtx.stroke();
-
-    // Draw Current Head Dot
-    const lastX = w - 1;
-    const lastY = toY(earHistory[earHistory.length - 1]);
-    earCtx.beginPath();
-    earCtx.arc(lastX - 2, lastY, 4, 0, Math.PI * 2);
-    earCtx.fillStyle = belowThreshold ? "#f43f5e" : "#00f0ff";
-    earCtx.fill();
-}
-drawEarChart(0.32);
-
-// Timer Helper
 function updateDuration() {
     if (!monitoringStartedAt) return;
     const diff = Math.floor((Date.now() - monitoringStartedAt) / 1000);
-    const hrs = String(Math.floor(diff / 3600)).padStart(2, '0');
-    const mins = String(Math.floor((diff % 3600) / 60)).padStart(2, '0');
-    const secs = String(diff % 60).padStart(2, '0');
+    const hrs = String(Math.floor(diff / 3600)).padStart(2, "0");
+    const mins = String(Math.floor((diff % 3600) / 60)).padStart(2, "0");
+    const secs = String(diff % 60).padStart(2, "0");
     document.getElementById("timerValue").textContent = `${hrs}:${mins}:${secs}`;
 }
 
-// Alert History Helper
-function addAlertHistory(type, message) {
+function escapeHtml(str) {
+    return String(str)
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;");
+}
+
+function addAlertHistory(type, message, timestamp = Date.now(), persist = true) {
     const emptyMsg = document.getElementById("emptyHistoryMsg");
     if (emptyMsg) emptyMsg.remove();
 
@@ -1525,22 +748,19 @@ function addAlertHistory(type, message) {
     const item = document.createElement("li");
     item.className = "history-item";
 
-    let badgeClass = "type-system";
+    let badgeClass = "badge-system";
     let badgeLabel = "SYS";
     if (type === "critical") {
-        badgeClass = "type-critical";
+        badgeClass = "badge-critical";
         badgeLabel = "ALERT";
-    } else if (type === "sms") {
-        badgeClass = "type-sms";
-        badgeLabel = "SMS";
     } else if (type === "warning") {
-        badgeClass = "type-warning";
+        badgeClass = "badge-warning";
         badgeLabel = "WARN";
     }
 
-    const timeStr = new Date().toLocaleTimeString();
+    const timeStr = new Date(timestamp).toLocaleTimeString();
     item.innerHTML = `
-        <span class="history-type-badge ${badgeClass}">${badgeLabel}</span>
+        <span class="history-badge ${badgeClass}">${badgeLabel}</span>
         <span style="flex:1">${escapeHtml(message)}</span>
         <span class="history-time">${timeStr}</span>
     `;
@@ -1549,24 +769,45 @@ function addAlertHistory(type, message) {
     while (list.children.length > 20) {
         list.removeChild(list.lastElementChild);
     }
+
+    if (persist) {
+        fetch("/alerts", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ type, message })
+        }).catch(error => console.error("Alert history save error:", error));
+    }
 }
 
-function clearAlertHistory() {
+async function loadAlertHistory() {
+    try {
+        const response = await fetch("/alerts");
+        if (!response.ok) return;
+        const data = await response.json();
+        clearAlertHistory(false);
+        for (const event of data.events) {
+            if (event.type === "sms") continue;
+            addAlertHistory(event.type, event.message, event.timestamp, false);
+        }
+    } catch (error) {
+        console.warn("Alert history load error:", error);
+    }
+}
+
+function clearAlertHistory(persist = true) {
     const list = document.getElementById("historyList");
-    list.innerHTML = `<li class="history-empty-state" id="emptyHistoryMsg">No fatigue or alert incidents recorded yet.</li>`;
+    list.innerHTML = `<li class="history-empty" id="emptyHistoryMsg">No alerts recorded yet.</li>`;
+    if (persist) {
+        fetch("/alerts", { method: "DELETE" })
+            .catch(error => console.error("Alert history clear error:", error));
+    }
 }
 
-function escapeHtml(str) {
-    return String(str).replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
-}
-
-// Sound Management (Web Audio Oscillator + SpeechSynthesis)
+// Audio Alarm
 function initAudio() {
     if (!audioContext) {
         const AudioClass = window.AudioContext || window.webkitAudioContext;
-        if (AudioClass) {
-            audioContext = new AudioClass();
-        }
+        if (AudioClass) audioContext = new AudioClass();
     }
     if (audioContext && audioContext.state === "suspended") {
         audioContext.resume();
@@ -1579,17 +820,14 @@ function toggleSound() {
     updateSoundUI();
     if (soundEnabled) {
         playBeepTone(880, 0.15);
-        addAlertHistory("system", "Audio alarm system enabled");
     } else {
         stopBuzzer();
         stopVoiceAlert();
-        addAlertHistory("system", "Audio alarm system muted");
     }
 }
 
 function updateSoundUI() {
     const headerBtn = document.getElementById("headerSoundBtn");
-    const toolbarBtn = document.getElementById("soundToggleBtn");
     const icon = document.getElementById("soundIcon");
     const text = document.getElementById("soundText");
 
@@ -1597,14 +835,14 @@ function updateSoundUI() {
         headerBtn.classList.add("active");
         icon.textContent = "🔊";
         text.textContent = "Sound Active";
-        toolbarBtn.innerHTML = `<span>🔊</span> Sound Active`;
-        toolbarBtn.style.borderColor = "var(--blue-accent)";
+        soundToggleBtn.textContent = "🔊 Sound Active";
+        soundToggleBtn.style.borderColor = "var(--accent)";
     } else {
         headerBtn.classList.remove("active");
         icon.textContent = "🔇";
-        text.textContent = "Sound Muted";
-        toolbarBtn.innerHTML = `<span>🔇</span> Sound Muted`;
-        toolbarBtn.style.borderColor = "var(--border)";
+        text.textContent = "Sound Off";
+        soundToggleBtn.textContent = "🔇 Sound Off";
+        soundToggleBtn.style.borderColor = "var(--border)";
     }
 }
 
@@ -1640,59 +878,28 @@ function stopBuzzer() {
 }
 
 function speakVoiceAlert() {
-    if (!soundEnabled || !('speechSynthesis' in window)) return;
+    if (!soundEnabled || !("speechSynthesis" in window)) return;
     if (window.speechSynthesis.speaking) return;
-    const phrase = "Are you sleeping? Please stay alert!";
-    const utter1 = new SpeechSynthesisUtterance(phrase);
-    utter1.lang = "en-US";
-    utter1.rate = 0.95;
-    utter1.pitch = 1.0;
-    utter1.volume = 1.0;
-
-    const utter2 = new SpeechSynthesisUtterance(phrase);
-    utter2.lang = "en-US";
-    utter2.rate = 0.95;
-    utter2.pitch = 1.0;
-    utter2.volume = 1.0;
-
-    window.speechSynthesis.speak(utter1);
-    window.speechSynthesis.speak(utter2);
+    const utter = new SpeechSynthesisUtterance("Are you sleeping? Please stay alert!");
+    utter.lang = "en-US";
+    utter.rate = 0.95;
+    utter.volume = 1.0;
+    window.speechSynthesis.speak(utter);
 }
 
 function stopVoiceAlert() {
-    if ('speechSynthesis' in window) {
+    if ("speechSynthesis" in window) {
         window.speechSynthesis.cancel();
     }
 }
 
-function testAudioAlarm() {
-    initAudio();
-    soundEnabled = true;
-    updateSoundUI();
-    playBeepTone(960, 0.3);
-    speakVoiceAlert();
-    addAlertHistory("system", "Test alarm buzzer & voice synthesis triggered");
-}
-
-function testDrowsyAlertVisual() {
-    initAudio();
-    soundEnabled = true;
-    updateSoundUI();
-    playBeepTone(960, 0.3);
-    speakVoiceAlert();
-    updateDriverStateUI("DROWSY", 0.14, "DROWSINESS ALERT!");
-    addAlertHistory("critical", "[PREVIEW] Drowsiness Red Alert Theme Activated");
-    setTimeout(() => {
-        updateDriverStateUI("ALERT", 0.32, "Eyes Open");
-        addAlertHistory("system", "[PREVIEW] Restored Original Professional Theme");
-    }, 4500);
-}
-
-// Camera Lifecycle
+// Camera & Monitoring Lifecycle
 async function startMonitoring() {
     initAudio();
     startButton.disabled = true;
-    document.getElementById("systemStateText").textContent = "Starting Camera...";
+    const pill = document.getElementById("systemStatePill");
+    pill.className = "pill status-pill";
+    document.getElementById("systemStateText").textContent = "Starting...";
 
     try {
         if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
@@ -1700,11 +907,7 @@ async function startMonitoring() {
         }
 
         mediaStream = await navigator.mediaDevices.getUserMedia({
-            video: {
-                width: { ideal: 640 },
-                height: { ideal: 480 },
-                facingMode: "user"
-            },
+            video: { width: { ideal: 640 }, height: { ideal: 480 }, facingMode: "user" },
             audio: false
         });
 
@@ -1714,31 +917,27 @@ async function startMonitoring() {
         camera.style.display = "block";
         cameraPlaceholder.style.display = "none";
         hudOverlay.style.display = "flex";
-        cameraActive = true;
 
+        const camBadge = document.getElementById("cameraBadge");
+        camBadge.style.borderColor = "var(--green)";
+        camBadge.querySelector(".dot").style.color = "var(--green)";
         document.getElementById("cameraBadgeText").textContent = "Camera Live";
-        document.getElementById("cameraBadge").style.borderColor = "var(--green-alert)";
-        document.getElementById("cameraBadge").querySelector(".status-dot").style.background = "var(--green-alert)";
-        document.getElementById("cameraToggleBtn").innerHTML = `<span>📷</span> Camera On`;
 
-        // Start backend session
         const res = await fetch("/start");
         const data = await res.json();
-        if (!res.ok) throw new Error(data.error || "Could not start the detection service.");
+        if (!res.ok) throw new Error(data.error || "Could not start detection service.");
         updateDetectionSettings(data);
 
         monitoring = true;
         monitoringStartedAt = Date.now();
-
+        document.getElementById("timerValue").textContent = "00:00:00";
         stopButton.disabled = false;
+
+        pill.className = "pill status-pill active";
         document.getElementById("systemStateText").textContent = "Monitoring Active";
-        document.getElementById("systemStatePill").style.background = "rgba(16, 185, 129, 0.15)";
-        document.getElementById("systemStatePill").style.color = "var(--green-alert)";
-        document.getElementById("timerStatus").textContent = "Active";
 
-        addAlertHistory("system", "Driver monitoring session commenced");
+        addAlertHistory("system", "Monitoring started");
 
-        // Intervals
         if (durationInterval) clearInterval(durationInterval);
         durationInterval = setInterval(updateDuration, 1000);
 
@@ -1748,13 +947,11 @@ async function startMonitoring() {
 
         if (statusInterval) clearInterval(statusInterval);
         statusInterval = setInterval(pollServerStatus, 1500);
-
     } catch (err) {
         console.error("Camera start failed:", err);
         monitoring = false;
-        cameraActive = false;
         if (mediaStream) {
-            mediaStream.getTracks().forEach(track => track.stop());
+            mediaStream.getTracks().forEach(t => t.stop());
             mediaStream = null;
         }
         camera.srcObject = null;
@@ -1763,9 +960,9 @@ async function startMonitoring() {
         hudOverlay.style.display = "none";
         startButton.disabled = false;
         stopButton.disabled = true;
+        pill.className = "pill status-pill error";
         document.getElementById("systemStateText").textContent = "Camera Error";
-        document.getElementById("systemStatePill").style.color = "var(--red-drowsy)";
-        alert("Camera initialization error: " + (err.message || "Could not access video device."));
+        alert("Camera error: " + (err.message || "Could not access webcam."));
     }
 }
 
@@ -1782,7 +979,6 @@ async function stopMonitoring() {
     stopVoiceAlert();
     wasAlerting = false;
 
-    // Shutdown video
     if (mediaStream) {
         mediaStream.getTracks().forEach(t => t.stop());
         mediaStream = null;
@@ -1791,52 +987,31 @@ async function stopMonitoring() {
     camera.style.display = "none";
     cameraPlaceholder.style.display = "flex";
     hudOverlay.style.display = "none";
-    cameraActive = false;
 
-    document.getElementById("cameraBadgeText").textContent = "Camera Inactive";
-    document.getElementById("cameraBadge").style.borderColor = "var(--border)";
-    document.getElementById("cameraBadge").querySelector(".status-dot").style.background = "#64748b";
-    document.getElementById("cameraToggleBtn").innerHTML = `<span>📷</span> Camera Off`;
+    const camBadge = document.getElementById("cameraBadge");
+    camBadge.style.borderColor = "var(--border)";
+    camBadge.querySelector(".dot").style.color = "var(--text-muted)";
+    document.getElementById("cameraBadgeText").textContent = "Camera Off";
 
-    document.getElementById("systemStateText").textContent = "System Standby";
-    document.getElementById("systemStatePill").style.background = "rgba(30, 41, 59, 0.5)";
-    document.getElementById("systemStatePill").style.color = "var(--text-secondary)";
-    document.getElementById("timerStatus").textContent = "Stopped";
+    const pill = document.getElementById("systemStatePill");
+    pill.className = "pill status-pill";
+    document.getElementById("systemStateText").textContent = "Standby";
 
-    // Update driver state badge
-    updateDriverStateUI("STOPPED", null);
+    updateDriverStateUI("STOPPED");
+    updateEarVisuals(null, null, null);
+    document.getElementById("alertFlag").textContent = "None";
 
     try {
         await fetch("/stop");
     } catch (e) {
-        console.log("Stop request notice:", e);
+        console.log("Stop notice:", e);
     }
 
-    addAlertHistory("system", "Driver monitoring session stopped");
+    addAlertHistory("system", "Monitoring stopped");
 }
 
-function toggleCameraOnly() {
-    if (!monitoring) {
-        startMonitoring();
-        return;
-    }
-    cameraActive = !cameraActive;
-    if (cameraActive) {
-        camera.style.display = "block";
-        cameraPlaceholder.style.display = "none";
-        hudOverlay.style.display = "flex";
-        document.getElementById("cameraToggleBtn").innerHTML = `<span>📷</span> Camera On`;
-    } else {
-        camera.style.display = "none";
-        cameraPlaceholder.style.display = "flex";
-        hudOverlay.style.display = "none";
-        document.getElementById("cameraToggleBtn").innerHTML = `<span>📷</span> Camera Paused`;
-    }
-}
-
-// Frame Capture Loop
 async function captureAndSendFrame() {
-    if (!monitoring || !cameraActive || processingFrame || camera.readyState < 2) return;
+    if (!monitoring || processingFrame || camera.readyState < 2) return;
     processingFrame = true;
 
     try {
@@ -1858,29 +1033,21 @@ async function captureAndSendFrame() {
             method: "POST",
             body: formData
         });
-
-        const responseText = await response.text();
-        let data;
-        try {
-            data = responseText ? JSON.parse(responseText) : {};
-        } catch {
-            throw new Error(`Detection service returned an invalid response (${response.status}).`);
-        }
+        const data = await response.json();
         if (!response.ok) {
             throw new Error(data.error || `Frame processing failed (${response.status}).`);
         }
         handleDetectionResult(data);
-
     } catch (err) {
         console.error("Frame processing error:", err);
-        showDetectionError(err.message || "Could not process the camera frame.");
+        document.getElementById("faceDetectStatus").textContent = "Detection error";
+        document.getElementById("faceDetectStatus").style.color = "var(--red)";
+        document.getElementById("hudMessage").textContent = err.message || "Detection request failed.";
     } finally {
         processingFrame = false;
     }
 }
 
-// Telemetry & UI Dispatcher
-let lastSmsTimestamp = "";
 function handleDetectionResult(data) {
     updateDetectionSettings(data);
     if (data.blink_count !== undefined) {
@@ -1890,57 +1057,30 @@ function handleDetectionResult(data) {
         document.getElementById("alertCount").textContent = data.drowsiness_count;
     }
 
-    const ear = data.eye_ratio;
     updateDetectionDebug(data);
-    updateEarVisuals(ear, data.left_eye_ratio, data.right_eye_ratio);
-    updateDriverStateUI(data.driver_state, ear, data.detection_status);
-
-    // Update SMS event if newly dispatched
-    if (data.sms_event && data.sms_event.timestamp && data.sms_event.timestamp !== lastSmsTimestamp) {
-        lastSmsTimestamp = data.sms_event.timestamp;
-        const ev = data.sms_event;
-        if (ev.type === "sent") {
-            addAlertHistory("sms", `Mobile alert sent to ${ev.recipient}`);
-        } else if (ev.type === "cooldown") {
-            addAlertHistory("sms", `Alert in cooldown (${ev.remaining}s remaining)`);
-        } else if (ev.type === "failed") {
-            addAlertHistory("sms", `SMS delivery failed: ${ev.error || 'Gateway error'}`);
-        }
-    }
-
-    if (data.sms_status) {
-        updateSmsStatusBadge(data.sms_status);
-    }
+    updateEarVisuals(data.eye_ratio, data.left_eye_ratio, data.right_eye_ratio);
+    updateDriverStateUI(data.driver_state);
 }
 
 function updateDetectionSettings(data) {
     if (Number.isFinite(data.eye_closed_threshold)) EAR_THRESHOLD = data.eye_closed_threshold;
-    if (Number.isFinite(data.eye_open_threshold)) EYE_OPEN_THRESHOLD = data.eye_open_threshold;
     if (Number.isFinite(data.drowsiness_time)) DROWSINESS_TIME = data.drowsiness_time;
 
     document.getElementById("earThresholdSub").textContent = `/ ${EAR_THRESHOLD.toFixed(3)}`;
     document.getElementById("eyeCloseThresholdLabel").textContent = EAR_THRESHOLD.toFixed(3);
-    document.getElementById("eyeOpenThresholdLabel").textContent = EYE_OPEN_THRESHOLD.toFixed(3);
-    document.getElementById("gaugeThresholdLabel").textContent = EAR_THRESHOLD.toFixed(3);
-    document.getElementById("chartThresholdLabel").textContent = EAR_THRESHOLD.toFixed(3);
-    const thresholdMarker = document.getElementById("earThresholdMarker");
-    thresholdMarker.style.left = `${Math.min(100, (EAR_THRESHOLD / 0.40) * 100)}%`;
-    thresholdMarker.title = `Closed-eye threshold (${EAR_THRESHOLD.toFixed(3)})`;
-    document.getElementById("drowsyThresholdText").textContent =
-        `Alert after ${DROWSINESS_TIME.toFixed(1)}s closed`;
+    document.getElementById("drowsyThresholdText").textContent = `Alert after ${DROWSINESS_TIME.toFixed(1)}s closed`;
+
     if (Number.isFinite(data.blink_min_duration) && Number.isFinite(data.blink_max_duration)) {
         document.getElementById("blinkWindowText").textContent =
-            `Blink window: ${data.blink_min_duration.toFixed(2)}s - ${data.blink_max_duration.toFixed(2)}s`;
+            `${data.blink_min_duration.toFixed(2)}s – ${data.blink_max_duration.toFixed(2)}s blinks`;
     }
 }
 
 function updateDetectionDebug(data) {
     const state = data.eye_state || "UNKNOWN";
     const duration = Number.isFinite(data.closed_duration) ? data.closed_duration : 0;
-    const eyesTag = document.getElementById("hudEyeTag");
-    eyesTag.textContent = state === "CLOSED" || state === "CLOSING"
-        ? `EYES: ${state} ${duration.toFixed(2)}s`
-        : `EYES: ${state}`;
+    document.getElementById("hudEyeTag").textContent =
+        state === "CLOSED" || state === "CLOSING" ? `EYES: ${state} ${duration.toFixed(2)}s` : `EYES: ${state}`;
 
     const alertFlag = document.getElementById("alertFlag");
     if (data.driver_state === "DROWSY") {
@@ -1954,14 +1094,6 @@ function updateDetectionDebug(data) {
     }
 }
 
-function showDetectionError(message) {
-    const safeMessage = String(message || "Detection request failed.");
-    document.getElementById("faceDetectStatus").textContent = "Detection error";
-    document.getElementById("faceDetectStatus").style.color = "var(--red-drowsy)";
-    document.getElementById("hudMessage").textContent = `Detection error: ${safeMessage}`;
-    document.getElementById("alertFlag").textContent = "API ERROR";
-}
-
 function updateEarVisuals(ear, leftEar, rightEar) {
     const valText = (ear !== null && ear !== undefined) ? ear.toFixed(3) : "—";
     document.getElementById("earMetricValue").textContent = valText;
@@ -1969,39 +1101,35 @@ function updateEarVisuals(ear, leftEar, rightEar) {
         leftEar !== null && leftEar !== undefined && rightEar !== null && rightEar !== undefined
             ? `EAR L:${leftEar.toFixed(3)} R:${rightEar.toFixed(3)}`
             : `EAR: ${valText}`;
-    document.getElementById("gaugeRatioText").textContent = `EAR: ${valText}`;
 
     const fill = document.getElementById("earMeterFill");
     const zone = document.getElementById("earZone");
 
     if (ear !== null && ear !== undefined) {
-        // Percentage based on max EAR 0.40
         const pct = Math.min(100, Math.max(0, (ear / 0.40) * 100));
         fill.style.width = pct + "%";
 
         if (ear < EAR_THRESHOLD) {
-            fill.style.backgroundColor = "var(--red-drowsy)";
-            zone.textContent = "DROWSY RISK";
-            zone.style.color = "var(--red-drowsy)";
+            fill.style.backgroundColor = "var(--red)";
+            zone.textContent = "Drowsy Risk";
+            zone.style.color = "var(--red)";
         } else if (ear < 0.28) {
-            fill.style.backgroundColor = "var(--yellow-warning)";
+            fill.style.backgroundColor = "var(--yellow)";
             zone.textContent = "Caution";
-            zone.style.color = "var(--yellow-warning)";
+            zone.style.color = "var(--yellow)";
         } else {
-            fill.style.backgroundColor = "var(--green-alert)";
-            zone.textContent = "Optimal";
-            zone.style.color = "var(--green-alert)";
+            fill.style.backgroundColor = "var(--green)";
+            zone.textContent = "Normal";
+            zone.style.color = "var(--green)";
         }
     } else {
         fill.style.width = "0%";
-        zone.textContent = "No Face";
+        zone.textContent = monitoring ? "No Face" : "Standby";
         zone.style.color = "var(--text-muted)";
     }
-
-    drawEarChart(ear);
 }
 
-function updateDriverStateUI(driverState, ear, detectionMsg) {
+function updateDriverStateUI(driverState) {
     const badge = document.getElementById("driverStateBadge");
     const faceStatus = document.getElementById("faceDetectStatus");
     const hudMsg = document.getElementById("hudMessage");
@@ -2013,62 +1141,48 @@ function updateDriverStateUI(driverState, ear, detectionMsg) {
         alertBanner.classList.add("alert-active");
         badge.classList.add("state-drowsy");
         badge.textContent = "DROWSY ALERT";
-        faceStatus.textContent = "FATIGUE CONFIRMED";
-        faceStatus.style.color = "var(--red-drowsy)";
-        hudMsg.textContent = "DROWSINESS ALERT! Are you sleeping? Please stay alert!";
+        faceStatus.textContent = "Drowsiness detected";
+        faceStatus.style.color = "var(--red)";
+        hudMsg.textContent = "DROWSINESS ALERT! Please stay alert!";
 
         if (!wasAlerting) {
             wasAlerting = true;
-            addAlertHistory("critical", "CRITICAL DROWSINESS ALERT! Driver fatigue detected.");
+            addAlertHistory("critical", "Drowsiness detected!");
             startBuzzer();
             speakVoiceAlert();
         }
-
     } else {
         alertBanner.classList.remove("alert-active");
+        stopBuzzer();
+        if (wasAlerting) stopVoiceAlert();
+        wasAlerting = false;
 
         if (driverState === "WARNING") {
             badge.classList.add("state-warning");
             badge.textContent = "EYES CLOSED";
             faceStatus.textContent = "Eyes closed";
-            faceStatus.style.color = "var(--yellow-warning)";
-            hudMsg.textContent = "Eyes closed — monitoring duration...";
-            stopBuzzer();
-            if (wasAlerting) stopVoiceAlert();
-            wasAlerting = false;
-
+            faceStatus.style.color = "var(--yellow)";
+            hudMsg.textContent = "Eyes closed — monitoring...";
         } else if (driverState === "ALERT") {
             badge.classList.add("state-alert");
-            badge.textContent = "ALERT (SAFE)";
-            faceStatus.textContent = "Driver vigilant";
-            faceStatus.style.color = "var(--green-alert)";
-            hudMsg.textContent = "Driver alert & eyes open. System nominal.";
-            stopBuzzer();
-            if (wasAlerting) stopVoiceAlert();
-            wasAlerting = false;
-
+            badge.textContent = "ALERT";
+            faceStatus.textContent = "Eyes open";
+            faceStatus.style.color = "var(--green)";
+            hudMsg.textContent = "Driver alert. Eyes open.";
         } else if (driverState === "NO FACE") {
             badge.textContent = "NO FACE";
-            faceStatus.textContent = "Searching...";
+            faceStatus.textContent = "Face not detected";
             faceStatus.style.color = "var(--text-muted)";
-            hudMsg.textContent = "Face not detected in frame. Please face forward.";
-            stopBuzzer();
-            if (wasAlerting) stopVoiceAlert();
-            wasAlerting = false;
-
+            hudMsg.textContent = "Face not detected. Look at the camera.";
         } else {
             badge.textContent = "STANDBY";
             faceStatus.textContent = "Not active";
             faceStatus.style.color = "var(--text-muted)";
             hudMsg.textContent = "System standby.";
-            stopBuzzer();
-            if (wasAlerting) stopVoiceAlert();
-            wasAlerting = false;
         }
     }
 }
 
-// Server Polling & Status Sync
 async function pollServerStatus() {
     try {
         const res = await fetch("/status");
@@ -2076,201 +1190,12 @@ async function pollServerStatus() {
         const d = await res.json();
         if (d.blink_count !== undefined) document.getElementById("blinkCount").textContent = d.blink_count;
         if (d.drowsiness_count !== undefined) document.getElementById("alertCount").textContent = d.drowsiness_count;
-        if (d.sms_status) updateSmsStatusBadge(d.sms_status);
     } catch (e) {
         console.warn("Status poll error:", e);
     }
 }
 
-// SMS API Functions
-async function refreshSmsStatus() {
-    try {
-        const res = await fetch("/sms/status");
-        if (!res.ok) return;
-        const d = await res.json();
-        updateSmsStatusBadge(d.status);
-
-        if (d.phone_number) {
-            document.getElementById("smsRecipientPreview").textContent = d.phone_number;
-        }
-
-        const alertBox = document.getElementById("twilioConfigAlert");
-        if (alertBox) {
-            const phoneValid = d.recipient_configured;
-            alertBox.style.display = d.twilio_configured && phoneValid ? "none" : "block";
-            if (!d.twilio_configured) {
-                alertBox.innerHTML = `⚠️ <strong>Twilio setup required:</strong> ${d.configuration_error || "Add valid Twilio credentials and sender number to the server environment variables."}`;
-            } else if (!phoneValid) {
-                alertBox.innerHTML = "⚠️ <strong>Recipient number required:</strong> Save an Indian mobile number in +91 followed by 10 digits format.";
-            }
-        }
-
-        const testButton = document.getElementById("testSmsBtn");
-        if (testButton.dataset.awaitingResult === "true" && d.status !== "SMS SENDING") {
-            testButton.disabled = false;
-            testButton.dataset.awaitingResult = "false";
-            testButton.textContent = "Send Test SMS";
-        }
-        if (d.status === "SMS FAILED" && d.last_event && d.last_event.error) {
-            const feedback = document.getElementById("smsFeedbackBanner");
-            feedback.className = "alert-feedback-banner error";
-            feedback.textContent = d.last_event.error;
-        }
-    } catch (e) {
-        console.warn("SMS status error:", e);
-    }
-}
-
-function updateSmsStatusBadge(statusText) {
-    let mainStatus = "SMS WAITING";
-    let badgeColor = "var(--yellow-warning)";
-    let dotColor = "var(--yellow-warning)";
-
-    if (statusText === "SMS SENDING") {
-        mainStatus = "SMS SENDING";
-        badgeColor = "var(--yellow-warning)";
-        dotColor = "var(--yellow-warning)";
-    } else if (statusText === "SMS SENT") {
-        mainStatus = "SMS SENT";
-        badgeColor = "var(--green-alert)";
-        dotColor = "var(--green-alert)";
-    } else if (statusText === "SMS FAILED") {
-        mainStatus = "SMS FAILED";
-        badgeColor = "var(--red-drowsy)";
-        dotColor = "var(--red-drowsy)";
-    } else {
-        mainStatus = "SMS WAITING";
-        badgeColor = "var(--blue-accent)";
-        dotColor = "var(--blue-accent)";
-    }
-
-    document.getElementById("smsStatusText").textContent = mainStatus;
-    document.getElementById("smsMetricValue").textContent = mainStatus;
-    document.getElementById("smsHeaderBadge").textContent = mainStatus;
-
-    document.getElementById("smsMetricValue").style.color = badgeColor;
-    document.getElementById("smsHeaderBadge").style.color = badgeColor;
-
-    const dot = document.getElementById("smsReadyDot");
-    if (dot) dot.style.color = dotColor;
-}
-
-// Background Theme & Custom Color Management
-function changeTheme(themeName) {
-    document.body.className = `theme-${themeName}`;
-    document.body.style.backgroundColor = "";
-    document.body.style.backgroundImage = "";
-    localStorage.setItem("drivesafe_bg_theme", themeName);
-    localStorage.removeItem("drivesafe_custom_bg");
-}
-
-function applyCustomBg(hexColor) {
-    document.body.className = "";
-    document.documentElement.style.setProperty("--bg-dark", hexColor);
-    document.body.style.backgroundColor = hexColor;
-    document.body.style.backgroundImage = "none";
-    localStorage.setItem("drivesafe_custom_bg", hexColor);
-    localStorage.removeItem("drivesafe_bg_theme");
-}
-
-// Initialize saved theme or default to OLED pure black
-const savedCustomBg = localStorage.getItem("drivesafe_custom_bg");
-if (savedCustomBg) {
-    applyCustomBg(savedCustomBg);
-    const picker = document.getElementById("customBgPicker");
-    if (picker) picker.value = savedCustomBg;
-} else {
-    const savedTheme = localStorage.getItem("drivesafe_bg_theme") || "pureblack";
-    changeTheme(savedTheme);
-}
-
-// Save SMS Settings Form
-document.getElementById("smsSettingsForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const banner = document.getElementById("smsFeedbackBanner");
-    banner.style.display = "none";
-
-    try {
-        const res = await fetch("/sms/settings", {
-            method: "POST",
-            body: new FormData(e.target)
-        });
-        const data = await res.json();
-
-        if (res.ok) {
-            banner.className = "alert-feedback-banner success";
-            banner.textContent = "SMS settings saved successfully.";
-            addAlertHistory("sms", `SMS recipient updated to ${data.phone_number || 'none'}`);
-            refreshSmsStatus();
-        } else {
-            banner.className = "alert-feedback-banner error";
-            banner.textContent = data.error || "Failed to save settings.";
-        }
-    } catch (err) {
-        banner.className = "alert-feedback-banner error";
-        banner.textContent = "Network error while saving SMS settings.";
-    }
-});
-
-// Send Test SMS
-async function sendTestSms() {
-    const btn = document.getElementById("testSmsBtn");
-    const banner = document.getElementById("smsFeedbackBanner");
-    if (btn.disabled) return;
-    btn.disabled = true;
-    btn.dataset.awaitingResult = "true";
-    btn.textContent = "Sending...";
-
-    try {
-        const res = await fetch("/sms/test", { method: "POST" });
-        const data = await res.json();
-
-        if (res.ok) {
-            banner.className = "alert-feedback-banner";
-            banner.style.display = "block";
-            banner.textContent = "SMS SENDING — waiting for Twilio to accept the test message.";
-            let result = null;
-            for (let attempt = 0; attempt < 40; attempt++) {
-                await new Promise(resolve => setTimeout(resolve, 500));
-                const statusResponse = await fetch("/sms/status");
-                if (!statusResponse.ok) throw new Error("Could not retrieve SMS request status.");
-                result = await statusResponse.json();
-                updateSmsStatusBadge(result.status);
-                if (result.status !== "SMS SENDING") break;
-            }
-            if (result && result.status === "SMS SENT") {
-                banner.className = "alert-feedback-banner success";
-                banner.textContent = "SMS SENT — Twilio accepted the test request. Carrier delivery may take a short time.";
-                addAlertHistory("sms", "Test SMS request accepted by Twilio");
-            } else if (result && result.status === "SMS FAILED") {
-                banner.className = "alert-feedback-banner error";
-                banner.textContent = (result.last_event && result.last_event.error) || "SMS FAILED — Twilio did not accept the test request.";
-            } else {
-                banner.className = "alert-feedback-banner";
-                banner.style.display = "block";
-                banner.textContent = "SMS SENDING — Twilio has not returned a final result yet.";
-            }
-        } else {
-            if (data.status) updateSmsStatusBadge(data.status);
-            banner.className = "alert-feedback-banner error";
-            banner.textContent = data.error || "Could not send test SMS.";
-        }
-    } catch (err) {
-        banner.className = "alert-feedback-banner error";
-        banner.textContent = err.message || "Network error while checking the test SMS request.";
-    } finally {
-        const smsStatus = document.getElementById("smsStatusText").textContent;
-        if (smsStatus !== "SMS SENDING") {
-            btn.disabled = false;
-            btn.dataset.awaitingResult = "false";
-            btn.textContent = "Send Test SMS";
-        }
-    }
-}
-
-// Polling for initial load
-refreshSmsStatus();
-setInterval(refreshSmsStatus, 4000);
+loadAlertHistory();
 </script>
 
 </body>

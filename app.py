@@ -141,6 +141,19 @@ def init_db():
             connection.execute("ALTER TABLE users ADD COLUMN phone_number TEXT NOT NULL DEFAULT ''")
         if "sms_enabled" not in columns:
             connection.execute("ALTER TABLE users ADD COLUMN sms_enabled INTEGER NOT NULL DEFAULT 0")
+        connection.execute("""
+            CREATE TABLE IF NOT EXISTS alert_history (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                user_id INTEGER NOT NULL,
+                event_type TEXT NOT NULL,
+                message TEXT NOT NULL,
+                created_at_ms INTEGER NOT NULL
+            )
+        """)
+        connection.execute(
+            "CREATE INDEX IF NOT EXISTS idx_alert_history_user_id_id "
+            "ON alert_history (user_id, id DESC)"
+        )
 
 
 def twilio_configuration_errors():
@@ -295,7 +308,8 @@ def login_required(view):
     @wraps(view)
     def wrapped(*args, **kwargs):
         if "user_id" not in session:
-            if request.path in ("/process_frame", "/status", "/start", "/stop", "/sms/status"):
+            api_paths = ("/process_frame", "/status", "/start", "/stop", "/alerts")
+            if request.path in api_paths or request.path.startswith("/sms/"):
                 return jsonify({"error": "Please log in first."}), 401
             return redirect(url_for("login"))
         return view(*args, **kwargs)
@@ -365,7 +379,66 @@ def home():
 
 @app.get("/healthz")
 def health_check():
+    try:
+        with get_db() as connection:
+            connection.execute("SELECT 1").fetchone()
+    except sqlite3.Error:
+        app.logger.exception("Database health check failed.")
+        return jsonify({"status": "error", "error": "Database unavailable"}), 503
     return jsonify({"status": "ok"})
+
+
+@app.route("/alerts", methods=["GET", "POST", "DELETE"])
+@login_required
+def alert_history():
+    user_id = session["user_id"]
+    if request.method == "GET":
+        with get_db() as connection:
+            rows = connection.execute(
+                "SELECT id, event_type, message, created_at_ms "
+                "FROM alert_history WHERE user_id=? ORDER BY id DESC LIMIT 20",
+                (user_id,),
+            ).fetchall()
+        return jsonify({
+            "events": [
+                {
+                    "id": row["id"],
+                    "type": row["event_type"],
+                    "message": row["message"],
+                    "timestamp": row["created_at_ms"],
+                }
+                for row in reversed(rows)
+            ]
+        })
+
+    if request.method == "DELETE":
+        with get_db() as connection:
+            connection.execute("DELETE FROM alert_history WHERE user_id=?", (user_id,))
+        return jsonify({"status": "cleared"})
+
+    data = request.get_json(silent=True)
+    if not isinstance(data, dict):
+        return jsonify({"error": "A JSON alert event is required."}), 400
+    event_type = data.get("type")
+    message = data.get("message")
+    if event_type not in ("critical", "warning", "sms", "system"):
+        return jsonify({"error": "Invalid alert event type."}), 400
+    if not isinstance(message, str) or not message.strip() or len(message) > 500:
+        return jsonify({"error": "Alert message must contain 1 to 500 characters."}), 400
+
+    timestamp = int(time.time() * 1000)
+    with get_db() as connection:
+        cursor = connection.execute(
+            "INSERT INTO alert_history (user_id, event_type, message, created_at_ms) "
+            "VALUES (?, ?, ?, ?)",
+            (user_id, event_type, message.strip(), timestamp),
+        )
+    return jsonify({
+        "id": cursor.lastrowid,
+        "type": event_type,
+        "message": message.strip(),
+        "timestamp": timestamp,
+    }), 201
 
 
 @app.route("/sms/settings", methods=["POST"])

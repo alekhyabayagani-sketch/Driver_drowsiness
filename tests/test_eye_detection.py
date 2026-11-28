@@ -183,5 +183,53 @@ class TestFrameProcessingApi(unittest.TestCase):
         queue_sms.assert_called_once_with(1)
 
 
+class TestAlertHistoryApi(unittest.TestCase):
+    def setUp(self):
+        self.client = drivesafe.app.test_client()
+        drivesafe.app.config["TESTING"] = True
+        with drivesafe.get_db() as connection:
+            cursor = connection.execute(
+                "INSERT INTO users (full_name, email, password_hash) VALUES (?, ?, ?)",
+                ("History Test", "history-test@example.test", "unused"),
+            )
+            self.user_id = cursor.lastrowid
+        with self.client.session_transaction() as session:
+            session["user_id"] = self.user_id
+
+    def tearDown(self):
+        with drivesafe.get_db() as connection:
+            connection.execute("DELETE FROM alert_history WHERE user_id=?", (self.user_id,))
+            connection.execute("DELETE FROM users WHERE id=?", (self.user_id,))
+
+    def test_alert_history_persists_lists_and_clears_user_events(self):
+        created = self.client.post(
+            "/alerts",
+            json={"type": "critical", "message": "Drowsiness detected"},
+        )
+
+        self.assertEqual(created.status_code, 201)
+        self.assertEqual(created.get_json()["message"], "Drowsiness detected")
+        listed = self.client.get("/alerts").get_json()["events"]
+        self.assertEqual(len(listed), 1)
+        self.assertEqual(listed[0]["type"], "critical")
+        self.assertEqual(listed[0]["timestamp"], created.get_json()["timestamp"])
+
+        cleared = self.client.delete("/alerts")
+
+        self.assertEqual(cleared.status_code, 200)
+        self.assertEqual(self.client.get("/alerts").get_json()["events"], [])
+
+    def test_alert_history_rejects_invalid_events_and_returns_json_when_unauthenticated(self):
+        invalid = self.client.post("/alerts", json={"type": "other", "message": "x"})
+        self.assertEqual(invalid.status_code, 400)
+        self.assertIn("error", invalid.get_json())
+
+        with self.client.session_transaction() as session:
+            session.clear()
+        unauthorized = self.client.post("/sms/settings")
+        self.assertEqual(unauthorized.status_code, 401)
+        self.assertIn("error", unauthorized.get_json())
+
+
 if __name__ == "__main__":
     unittest.main()
