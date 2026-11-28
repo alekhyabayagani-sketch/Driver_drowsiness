@@ -136,6 +136,7 @@ class TestFrameProcessingApi(unittest.TestCase):
         self.client = drivesafe.app.test_client()
         with self.client.session_transaction() as session:
             session["user_id"] = 1
+            session["monitoring"] = True
 
         ok, encoded = cv2.imencode(".jpg", np.zeros((480, 640, 3), dtype=np.uint8))
         self.assertTrue(ok)
@@ -164,6 +165,23 @@ class TestFrameProcessingApi(unittest.TestCase):
         self.assertAlmostEqual(data["right_eye_ratio"], 0.28, places=2)
         self.assertEqual(data["eye_state"], "OPEN")
         self.assertEqual(data["blink_count"], 0)
+
+    def test_frame_endpoint_recovers_monitoring_after_worker_state_reset(self):
+        with self.client.session_transaction() as session:
+            session.pop("monitoring", None)
+        start_response = self.client.get("/start")
+        self.assertEqual(start_response.status_code, 200)
+
+        drivesafe.face_mesh = SequencedFaceMesh([(0.30, 0.28)])
+        drivesafe.eye_tracker = SequencedTracker([0.0])
+        drivesafe.monitoring = False
+
+        response = self.post_frame()
+        data = response.get_json()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertTrue(data["monitoring"])
+        self.assertEqual(data["driver_state"], "ALERT")
 
     def test_frame_endpoint_counts_blink_and_triggers_drowsiness(self):
         # The first three frames form a short blink; the next three keep both eyes closed.

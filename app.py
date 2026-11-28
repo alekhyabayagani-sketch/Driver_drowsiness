@@ -320,8 +320,10 @@ def eye_ratio(points, indexes):
     return eye_aspect_ratio(points, indexes)
 
 
-def get_driver_state(detection_text):
-    if not monitoring:
+def get_driver_state(detection_text, is_monitoring=None):
+    if is_monitoring is None:
+        is_monitoring = monitoring
+    if not is_monitoring:
         return "STOPPED"
     if detection_text == "DROWSINESS ALERT!":
         return "DROWSY"
@@ -585,6 +587,7 @@ def logout():
 @login_required
 def start():
     global monitoring, blink_count, drowsiness_count, current_status, incident_active
+    session["monitoring"] = True
     blink_count = 0
     drowsiness_count = 0
     incident_active = False
@@ -605,6 +608,7 @@ def start():
 @login_required
 def stop():
     global monitoring, current_status, incident_active
+    session["monitoring"] = False
     monitoring = False
     incident_active = False
     reset_eye_telemetry()
@@ -624,7 +628,7 @@ def process_frame():
     global last_ear, last_left_ear, last_right_ear, last_eye_state, last_closed_duration
     uid = session.get("user_id")
 
-    if not monitoring:
+    if not session.get("monitoring", False):
         return jsonify({
             "monitoring": False,
             "blink_count": blink_count,
@@ -634,6 +638,7 @@ def process_frame():
             **detection_telemetry(),
         })
 
+    monitoring = True
     file = request.files.get("frame")
     if file is None:
         return jsonify({"error": "No camera frame received"}), 400
@@ -734,6 +739,7 @@ def process_frame():
 @login_required
 def status():
     uid = session.get("user_id")
+    is_monitoring = session.get("monitoring", False)
     with sms_lock:
         current_sms = sms_status_by_user.get(uid)
         sms_ev = last_sms_event_by_user.get(uid)
@@ -741,11 +747,11 @@ def status():
     sms_st = current_sms if current_sms in ("SMS WAITING", "SMS SENDING", "SMS SENT", "SMS FAILED") else "SMS WAITING"
 
     return jsonify({
-        "monitoring": monitoring,
+        "monitoring": is_monitoring,
         "blink_count": blink_count,
         "drowsiness_count": drowsiness_count,
         "detection_status": current_status,
-        "driver_state": get_driver_state(current_status),
+        "driver_state": get_driver_state(current_status, is_monitoring),
         **detection_telemetry(),
         "sms_status": sms_st,
         "sms_event": sms_ev
